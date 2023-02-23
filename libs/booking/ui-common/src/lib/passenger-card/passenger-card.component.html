@@ -1,0 +1,29 @@
+<div class="card" *ngIf="passenger">
+  <div class="card-header">
+    <h2 class="title">{{ passenger.name }}, {{ passenger.firstName }}</h2>
+  </div>
+
+  <div class="card-body">
+    <p>Id: {{ passenger.id }}</p>
+    <p>Vorname: {{ passenger.firstName }}</p>
+    <p>Nachname: {{ passenger.name }}</p>
+    <p>Bonus Miles: {{ passenger.bonusMiles }}</p>
+    <p>Status: {{ passenger.passengerStatus }}</p>
+    <div class="text-center">
+      <button
+        class="btn btn-default"
+        data-testid="pc-downgrade"
+        (click)="downgrade.emit()"
+      >
+        Downgrade
+      </button>
+      <button
+        class="btn btn-default"
+        data-testid="pc-upgrade"
+        (click)="upgrade.emit()"
+      >
+        Upgrade
+      </button>
+    </div>
+  </div>
+</div>
