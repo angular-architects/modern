@@ -1,7 +1,6 @@
 - [1. Setup State Management for a Feature Module](#1-setup-state-management-for-a-feature-module)
 - [2. Consume inside of the Component](#2-consume-inside-of-the-component)
 - [3. Creating an Effect](#3-creating-an-effect)
-- [4. Bonus: Error Handling](#4-bonus-error-handling)
 
 # 1. Setup State Management for a Feature Module
 
@@ -236,6 +235,13 @@ this.flightService
 <summary>Show code</summary>
 <p>
 
+```typescript
+export const provideFlightBooking = [
+  provideState(flightBookingFeature),
+  provideEffects([FlightBookingEffects]),
+];
+```
+
 </p>
 </details>
 
@@ -272,39 +278,3 @@ class FlightSearchComponent {
 5. Test the application.
 
 6. Use the `Redux DevTools` Chrome plugin to find out which actions are dispatched.
-
-# 4. Bonus: Error Handling
-
-1. Open your `flight-booking.actions.ts` file and add an LoadFlightsError Action without a payload:
-
-```typescript
-export const loadFlightsError = createAction(
-  '[FlightBooking] Load Flights Error'
-);
-```
-
-2. In your `flight-booking.effects.ts`, add an error handler to the switchMap. This error handler should return the `loadFlightError` action.
-
-   <details>
-   <summary>Show code</summary>
-   <p>
-
-   ```typescript
-   loadFlightBookings$ = createEffect(() =>
-     this.actions$.pipe(
-       ofType(loadFlights),
-       switchMap((a) =>
-         this.flightService.find(a.from, a.to, a.urgent).pipe(
-           map((flights) => flightsLoaded({ flights })),
-           catchError((err) => of(loadFlightsError()))
-         )
-       )
-     )
-   );
-   ```
-
-   </p>  
-   </details>
-
-3. Test your solution. You can simulate an error with the Browser's dev tools by activating offline module in the `Network` tab.
-4. Use the Redux Dev Tools to make sure, that the `loadFlightsError` action is send to the store.
