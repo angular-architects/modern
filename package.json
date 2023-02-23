@@ -10,7 +10,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-architects/module-federation": "^14.3.14",
+    "@angular-architects/module-federation": "^15.0.3",
     "@angular-architects/paper-design": "^1.0.3",
     "@angular/animations": "15.1.5",
     "@angular/cdk": "15.1.6",

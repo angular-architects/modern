@@ -21,5 +21,16 @@
   },
   "peacock.color": "#f9e64f",
   "angular.enable-strict-mode-prompt": false,
-  "eslint.validate": ["json"]
+  "eslint.validate": [
+    "json"
+  ],
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true
+  },
+  "hide-files.files": []
 }
