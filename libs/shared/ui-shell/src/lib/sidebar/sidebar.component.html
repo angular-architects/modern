@@ -1,19 +1,33 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item routerLink="/">Home</a>
-      <a mat-list-item routerLink="/flight-booking/flight-search">Flights</a>
-      <a mat-list-item routerLink="/tickets/my-tickets">My Tickets</a>
-      <a mat-list-item routerLink="/next-flight">Next Flight</a>
+      <a
+        mat-list-item
+        routerLink="/flight-booking/flight-search"
+        data-testid="lnk-flights"
+        >Flights</a
+      >
+      <a
+        mat-list-item
+        routerLink="/tickets/my-tickets"
+        data-testid="lnk-tickets"
+        >My Tickets</a
+      >
+      <a mat-list-item routerLink="/next-flight" data-testid="lnk-next-flights"
+        >Next Flight</a
+      >
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-
     <ng-content></ng-content>
-
   </mat-sidenav-content>
 </mat-sidenav-container>
