@@ -1,4 +1,6 @@
 {
+  "name": "shared-util-common",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/shared/util-common/src",
   "prefix": "common",
