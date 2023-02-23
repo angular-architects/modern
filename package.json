@@ -7,7 +7,8 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
-    "test:component": "nx component-test  --project booking-feature-book --watch"
+    "test:component": "nx component-test  --project booking-feature-book --watch",
+    "test:e2e": "nx e2e --project booking-e2e --watch"
   },
   "private": true,
   "dependencies": {
@@ -63,6 +64,7 @@
     "@swc/cli": "~0.1.55",
     "@swc/core": "^1.2.173",
     "@testing-library/angular": "^12.3.0",
+    "@testing-library/cypress": "^9.0.0",
     "@types/jest": "28.1.1",
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "5.36.1",
