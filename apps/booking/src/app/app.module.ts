@@ -10,7 +10,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
+import { provideStore, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NavbarComponent, SidebarComponent } from '@nx-example/shared/ui-shell';
 import { reducer } from './+state';
@@ -18,35 +18,27 @@ import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        HttpClientModule,
-        RouterModule.forRoot(APP_ROUTES),
-        
-        MatToolbarModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatIconModule,
-        MatListModule,
-        MatToolbarModule,
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    RouterModule.forRoot(APP_ROUTES),
 
-        LayoutModule,
-        BrowserAnimationsModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatToolbarModule,
 
-        StoreModule.forRoot(reducer),
-        EffectsModule.forRoot(),
-        StoreDevtoolsModule.instrument(),
+    LayoutModule,
+    BrowserAnimationsModule,
 
-        RouterModule,
-    ],
-    declarations: [
-        NavbarComponent, 
-        SidebarComponent,
-        AppComponent,
-    ],
-    providers: [],
-    bootstrap: [
-        AppComponent
-    ]
+    StoreDevtoolsModule.instrument(),
+
+    RouterModule,
+  ],
+  declarations: [NavbarComponent, SidebarComponent, AppComponent],
+  providers: [provideStore({})],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
