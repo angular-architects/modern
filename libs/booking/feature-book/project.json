@@ -7,7 +7,9 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:ng-packagr-lite",
-      "outputs": ["dist/libs/booking/feature-book"],
+      "outputs": [
+        "dist/libs/booking/feature-book"
+      ],
       "options": {
         "project": "libs/booking/feature-book/ng-package.json"
       },
@@ -23,7 +25,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/booking/feature-book"],
+      "outputs": [
+        "coverage/libs/booking/feature-book"
+      ],
       "options": {
         "jestConfig": "libs/booking/feature-book/jest.config.ts",
         "passWithNoTests": true
@@ -37,7 +41,19 @@
           "libs/booking/feature-book/**/*.html"
         ]
       }
+    },
+    "component-test": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "libs/booking/feature-book/cypress.config.ts",
+        "testingType": "component",
+        "skipServe": true,
+        "devServerTarget": "booking:build"
+      }
     }
   },
-  "tags": ["domain:booking", "type:feature"]
+  "tags": [
+    "domain:booking",
+    "type:feature"
+  ]
 }

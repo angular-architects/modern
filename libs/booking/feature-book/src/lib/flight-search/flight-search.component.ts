@@ -1,18 +1,16 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, Inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { Store } from "@ngrx/store";
-import { BookingSlice, delayFlight, loadFlights, selectFlights } from "@nx-example/booking/domain";
-import { take } from "rxjs";
+import { FlightService } from "@nx-example/booking/domain";
 
-import { FlightCardComponent } from '@nx-example/booking/ui-common';
-import { CityValidator } from '@nx-example/shared/util-common';
+import { FlightCardComponent } from "@nx-example/booking/ui-common";
+import { CityValidator } from "@nx-example/shared/util-common";
 
 @Component({
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
+    CommonModule,
+    FormsModule,
     FlightCardComponent,
     CityValidator,
   ],
@@ -23,12 +21,15 @@ import { CityValidator } from '@nx-example/shared/util-common';
 })
 export class FlightSearchComponent {
 
-  from = 'Berlin'; 
-  to = 'London'; 
+  from = 'Berlin';
+  to = 'London';
   urgent = false;
 
-  store = inject(Store<BookingSlice>);
-  flights$ = this.store.select(selectFlights);
+  flightService = inject(FlightService)
+
+get flights() {
+  return this.flightService.flights;
+}
 
   basket: { [id: number]: boolean } = {
     3: true,
@@ -38,17 +39,11 @@ export class FlightSearchComponent {
   search(): void {
     if (!this.from || !this.to) return;
 
-    this.store.dispatch(loadFlights({
-      from: this.from, 
-      to: this.to 
-    }));
+    this.flightService.load(this.from, this.to, this.urgent)
   }
 
   delay(): void {
-    this.flights$.pipe(take(1)).subscribe(flights => {
-      const id = flights[0].id;
-      this.store.dispatch(delayFlight({id}));
-    });
+    this.flightService.delay();
   }
 
 }
