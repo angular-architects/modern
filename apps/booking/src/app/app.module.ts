@@ -11,7 +11,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { provideStore, StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import {
+  provideStoreDevtools,
+  StoreDevtoolsModule,
+} from '@ngrx/store-devtools';
 import { NavbarComponent, SidebarComponent } from '@nx-example/shared/ui-shell';
 import { reducer } from './+state';
 import { AppComponent } from './app.component';
@@ -38,7 +41,7 @@ import { APP_ROUTES } from './app.routes';
     RouterModule,
   ],
   declarations: [NavbarComponent, SidebarComponent, AppComponent],
-  providers: [provideStore({})],
+  providers: [provideStore({}), provideStoreDevtools()],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

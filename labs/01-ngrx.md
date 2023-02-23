@@ -1,6 +1,9 @@
-# NgRx
+- [1. Setup State Management for a Feature Module](#1-setup-state-management-for-a-feature-module)
+- [2. Consume inside of the Component](#2-consume-inside-of-the-component)
+- [3. Creating an Effect](#3-creating-an-effect)
+- [4. Bonus: Error Handling](#4-bonus-error-handling)
 
-## Setup State Management for a Feature Module
+# 1. Setup State Management for a Feature Module
 
 1. To setup a feature state, switch into the folder `libs\booking\domain\src\lib`. Create a new folder called `+state`. This is the directory, where all NgRx-related files will be located.
 
@@ -102,7 +105,9 @@ export const FLIGHT_BOOKING_ROUTES: Routes = [
 ];
 ```
 
-7. Open the file `flight-search.component.ts`. Inject the Store into the constructor. Introduce a property `flights$` (`Observable<Flight[]>`) which points to the flights in the store.
+# 2. Consume inside of the Component
+
+1. Open the file `flight-search.component.ts`. Inject the Store into the constructor. Introduce a property `flights$` (`Observable<Flight[]>`) which points to the flights in the store.
 
       <details>
       <summary>Show code</summary>
@@ -122,7 +127,7 @@ export const FLIGHT_BOOKING_ROUTES: Routes = [
 </p>
 </details>
 
-8. Modify the component's `search` method so that the loaded flights are send to the store. For this, use the `FlightService`'s `find` method instead of the `load` method and dispatch a `flightsLoaded` action.
+2. Modify the component's `search` method so that the loaded flights are send to the store. For this, use the `FlightService`'s `find` method instead of the `load` method and dispatch a `flightsLoaded` action.
 
 <details>
 <summary>Show code</summary>
@@ -152,7 +157,7 @@ this.flightService
    </p>
    </details>
 
-9. Open the component's template, `flight-search.component.html`, and use the observable `flights$` together with the `async` pipe instead of the array `flights`.
+3. Open the component's template, `flight-search.component.html`, and use the observable `flights$` together with the `async` pipe instead of the array `flights`.
 
    <details>
    <summary>Show code</summary>
@@ -169,8 +174,137 @@ this.flightService
    </p>
    </details>
 
-10. Test your solution
+4. Test your solution
 
-11. If not already installed, install the Chrome plugin `Redux DevTools` and use it to trace the dispatched actions.
+5. If not already installed, install the Chrome plugin `Redux DevTools` and use it to trace the dispatched actions.
 
-    To install it, use Chrome to navigate to [this page](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=de).
+   To install it, use Chrome to navigate to [this page](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=de).
+
+# 3. Creating an Effect
+
+1.  Open your `flight-booking.actions.ts` file and append a `loadFlights` action with properties `from`, `to`, and `urgent`.
+
+       <details>
+       <summary>Show code</summary>
+       <p>
+
+    ```typescript
+    export const flightBookingActions = createActionGroup({
+      source: 'FlightBooking',
+      events: {
+        'Flights Loaded': props<{ flights: Flight[] }>(),
+        'Load Flights': props<{ from: string; to: string; urgent: boolean }>(), // <-- this is new
+      },
+    });
+    ```
+
+       </p>
+       </details>
+
+2.  Create the file `flight-booking.effects.ts` and add an effect that takes a `FlightsLoadAction`, loads the requested flights and returns a `FlightsLoadedAction`.
+
+<details>
+<summary>Show code</summary>
+<p>
+
+    ```typescript
+    @Injectable()
+    export class FlightBookingEffects {
+      actions$ = inject(Actions);
+      flightService = inject(FlightService);
+
+      loadFlights$ = createEffect(() => {
+        return this.actions$.pipe(
+          ofType(flightBookingActions.loadFlights),
+          switchMap((a) => this.flightService.find(a.from, a.to, a.urgent)),
+          map((flights) => flightBookingActions.flightsLoaded({ flights }))
+        );
+      });
+    }
+    ```
+
+</p>
+</details>
+
+**Tipp:** Import the `Actions` type from the module `@ngrx/effects`:
+
+`import {Actions} from '@ngrx/effects';`
+
+3. In order to provide the effects, you have to add them to the `provideFlightBooking` array:
+
+<details>
+<summary>Show code</summary>
+<p>
+
+</p>
+</details>
+
+4. Open the file `flight-search.component.ts`. Change the `search` method so that it just dispatches a `loadFlights` action.
+
+<details>
+<summary>Show code</summary>
+<p>
+
+```typescript
+class FlightSearchComponent {
+  // ...
+
+  search(): void {
+    if (!this.from || !this.to) return;
+
+    // New:
+    this.store.dispatch(
+      flightBookingActions.loadFlights({
+        from: this.from,
+        to: this.to,
+        urgent: this.urgent,
+      })
+    );
+
+    // ...
+  }
+}
+```
+
+   </p>
+   </details>
+
+5. Test the application.
+
+6. Use the `Redux DevTools` Chrome plugin to find out which actions are dispatched.
+
+# 4. Bonus: Error Handling
+
+1. Open your `flight-booking.actions.ts` file and add an LoadFlightsError Action without a payload:
+
+```typescript
+export const loadFlightsError = createAction(
+  '[FlightBooking] Load Flights Error'
+);
+```
+
+2. In your `flight-booking.effects.ts`, add an error handler to the switchMap. This error handler should return the `loadFlightError` action.
+
+   <details>
+   <summary>Show code</summary>
+   <p>
+
+   ```typescript
+   loadFlightBookings$ = createEffect(() =>
+     this.actions$.pipe(
+       ofType(loadFlights),
+       switchMap((a) =>
+         this.flightService.find(a.from, a.to, a.urgent).pipe(
+           map((flights) => flightsLoaded({ flights })),
+           catchError((err) => of(loadFlightsError()))
+         )
+       )
+     )
+   );
+   ```
+
+   </p>  
+   </details>
+
+3. Test your solution. You can simulate an error with the Browser's dev tools by activating offline module in the `Network` tab.
+4. Use the Redux Dev Tools to make sure, that the `loadFlightsError` action is send to the store.
