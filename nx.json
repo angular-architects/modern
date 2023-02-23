@@ -45,5 +45,10 @@
       "style": "css"
     }
   },
-  "defaultProject": "booking"
+  "defaultProject": "booking",
+  "targetDefaults": {
+    "lint": {
+      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
+    }
+  }
 }

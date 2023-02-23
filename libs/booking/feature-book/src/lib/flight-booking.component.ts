@@ -1,12 +1,12 @@
 import { Component } from "@angular/core";
-import { RouterLinkWithHref, RouterOutlet } from "@angular/router";
+import { RouterLink, RouterOutlet } from "@angular/router";
 
 @Component({
   standalone: true,
   selector: 'flight-booking',
   imports: [
     RouterOutlet,
-    RouterLinkWithHref,
+    RouterLink,
   ],
   templateUrl: './flight-booking.component.html'
 })

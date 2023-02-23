@@ -1,4 +1,6 @@
 {
+  "name": "luggage-feature-checkin",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/luggage/feature-checkin/src",
   "prefix": "luggage",

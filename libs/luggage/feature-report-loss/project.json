@@ -1,4 +1,6 @@
 {
+  "name": "luggage-feature-report-loss",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/luggage/feature-report-loss/src",
   "prefix": "luggage",
