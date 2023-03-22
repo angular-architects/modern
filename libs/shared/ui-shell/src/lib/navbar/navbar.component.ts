@@ -2,7 +2,6 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, Inject } from '@angular/core';
 import { map, shareReplay } from 'rxjs';
 
-
 @Component({
     selector: 'app-navbar-cmp',
     templateUrl: './navbar.component.html',
