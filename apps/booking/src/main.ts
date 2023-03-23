@@ -3,8 +3,8 @@ import { importProvidersFrom } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
+import { EffectsModule, provideEffects } from '@ngrx/effects';
+import { provideStore, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { bootstrapSignalApplication } from '@nx-example/shared/util-signals';
 
@@ -14,6 +14,8 @@ import { APP_ROUTES } from './app/app.routes';
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideStore(),
+    provideEffects(),
     provideHttpClient(),
     provideRouter(APP_ROUTES),
     provideAnimations(),
