@@ -4,10 +4,11 @@ import { FormsModule } from "@angular/forms";
 import { Store } from "@ngrx/store";
 import { BookingSlice, delayFlight, Flight, loadFlights, selectFlights } from "@nx-example/booking/domain";
 import { fromObservable, injectSignalChangeDetection, signal } from '@nx-example/shared/util-signals';
+
 import { take } from "rxjs";
 import { SettableSignal } from './../../../../../shared/util-signals/src/lib/angular/core/signals/src/signal';
 
-import { FlightCardComponent } from '@nx-example/booking/ui-common';
+import { FlightCardComponent, FlightFilterComponent } from '@nx-example/booking/ui-common';
 import { CityValidator } from '@nx-example/shared/util-common';
 
 @Component({
@@ -16,6 +17,7 @@ import { CityValidator } from '@nx-example/shared/util-common';
     CommonModule,
     FormsModule,
     FlightCardComponent,
+    FlightFilterComponent,
     CityValidator,
   ],
   providers: [
@@ -43,6 +45,7 @@ export class FlightSearchComponent {
     this.store.dispatch(loadFlights({
       from: this.state.from(),
       to: this.state.to()
+
     }));
   }
 
@@ -55,5 +58,5 @@ export class FlightSearchComponent {
   updateBasket(id: number, selected: boolean): void {
     this.state.basket.mutate(basket => basket[id] = selected);
   }
-}
 
+}

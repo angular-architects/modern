@@ -13,3 +13,5 @@ import { TicketsModule } from './tickets.module';
 })
 export class NextFlightComponent {
 }
+
+export default NextFlightComponent;

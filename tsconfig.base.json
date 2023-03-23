@@ -24,7 +24,9 @@
       "@nx-example/booking/feature-tickets": [
         "libs/booking/feature-tickets/src/index.ts"
       ],
-      "@nx-example/booking/ui-common": ["libs/booking/ui-common/src/index.ts"],
+      "@nx-example/booking/ui-common": [
+        "libs/booking/ui-common/src/index.ts"
+      ],
       "@nx-example/luggage/domain": ["libs/luggage/domain/src/index.ts"],
       "@nx-example/luggage/feature-checkin": [
         "libs/luggage/feature-checkin/src/index.ts"
