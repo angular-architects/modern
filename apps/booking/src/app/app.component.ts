@@ -1,6 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { map, shareReplay } from 'rxjs';
 import { Component, Inject } from '@angular/core';
+import { map, shareReplay } from 'rxjs';
+import { CoreModule } from './core.module';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,6 +26,7 @@ import { RouterOutlet } from '@angular/router';
     RouterOutlet,
   ],
   selector: 'app-root',
+  imports: [CoreModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
